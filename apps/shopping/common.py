@@ -15,6 +15,7 @@ from py4web.utils.factories import ActionFactory
 from py4web.utils.form import FormStyleBulma
 from . import settings
 
+
 # #######################################################
 # implement custom loggers form settings.LOGGERS
 # #######################################################

@@ -6,33 +6,43 @@
 }
 </style>
 
-
 <div class="section" id="app" v-cloak>
-  <!-- Put here your Vue.js template -->
   <h1 class="title">Shopping List</h1>
 
   <div class="container">
     <table class="table is-fullwidth is-striped">
+      <!-- Input row for adding a new item -->
       <tr class="add-row">
-        <td class="is-narrow"><i class="is-size-2 fa fa-plus-square has-text-success add-item"></i></td>
-        <td><input class="input add-item" type="text" name="new_item"></td>
+        <td class="is-narrow">
+          <i @click="addItem" class="is-size-2 fa fa-plus-square has-text-success add-item"></i>
+        </td>
+        <td>
+          <input v-model="newItem" class="input add-item" type="text" name="new_item" placeholder="Add a new item">
+        </td>
         <td class="is-narrow"></td>
       </tr>
-      <tr class="item-row">
-        <td class="check is-narrow"><input type="checkbox"></td>
-        <td class="item"></td>
-        <td class="trash is-narrow"><i class="trash has-text-danger fa fa-trash"></i></td>
+
+      <!-- List of items -->
+      <tr v-for="item in items" :key="item.id" class="item-row">
+        <td class="check is-narrow">
+          <input type="checkbox" v-model="item.is_purchased" @change="togglePurchased(item)">
+        </td>
+        <td class="item" :class="{ 'has-text-grey-light': item.is_purchased }">{{ item.item_name }}</td>
+        <td class="trash is-narrow">
+          <i @click="deleteItem(item.id)" class="trash has-text-danger fa fa-trash"></i>
+        </td>
       </tr>
     </table>
   </div>
 </div>
 
-
 [[block page_scripts]]
-<!-- Loads the index-specific js for Vue -->
+<!-- Load URLs for Vue.js app -->
 <script>
-  let load_data_url = "[[=XML(load_data_url)]]";
-  // Add other URLs here if you wish.
+  let load_data_url = "[[=URL('load_data')]]";
+  let add_item_url = "[[=URL('add_item')]]";
+  let mark_purchased_url = "[[=URL('mark_purchased')]]";
+  let delete_item_url = "[[=URL('delete_item')]]";
 </script>
 <script src="js/index.js"></script>
 [[end]]
